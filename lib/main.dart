@@ -172,45 +172,54 @@ class _Connect4PageState extends State<Connect4Page> {
   }
 
   Widget _buildBoard() {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: List.generate(rows, (row) {
-        return Row(
-          mainAxisSize: MainAxisSize.min,
-          children: List.generate(cols, (col) {
-            int cell = board[row][col];
-            Color color;
+  return Column(
+    mainAxisSize: MainAxisSize.min,
+    children: List.generate(rows, (row) {
+      return Row(
+        mainAxisSize: MainAxisSize.min,
+        children: List.generate(cols, (col) {
+          int cell = board[row][col];
+          bool isWinning = winningCells[row][col];
 
-            if (winningCells[row][col]) {
-              color = Colors.green;
-            } else if (cell == 1) {
-              color = Colors.red;
-            } else if (cell == 2) {
-              color = Colors.yellow;
-            } else {
-              color = Colors.grey.shade300;
-            }
+          Widget content;
 
-            return GestureDetector(
-              onTap: message.contains('wygrywa') || message == 'Remis!'
-                  ? null
-                  : () {
-                      _makeMove(col);
-                    },
-              child: Container(
-                margin: const EdgeInsets.all(4),
-                width: 48,
-                height: 48,
-                decoration: BoxDecoration(
-                  color: color,
-                  shape: BoxShape.circle,
-                  border: Border.all(color: Colors.black),
-                ),
+          if (cell == 1) {
+            content = Image.asset('assets/images/czerwona-small.png', width: 48, height: 48);
+          } else if (cell == 2) {
+            content = Image.asset('assets/images/zolta-small.png', width: 48, height: 48);
+          } else {
+            content = Container(
+              width: 48,
+              height: 48,
+              decoration: BoxDecoration(
+                color: Colors.grey.shade300,
+                shape: BoxShape.circle,
+                border: Border.all(color: Colors.black),
               ),
             );
-          }),
-        );
-      }),
-    );
-  }
+          }
+
+          return GestureDetector(
+            onTap: message.contains('wygrywa') || message == 'Remis!'
+                ? null
+                : () {
+                    _makeMove(col);
+                  },
+            child: Container(
+              margin: const EdgeInsets.all(4),
+              width: 48,
+              height: 48,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                border: Border.all(color: Colors.black),
+                color: isWinning ? Colors.green : null,
+              ),
+              child: ClipOval(child: content),
+            ),
+          );
+        }),
+      );
+    }),
+  );
+}
 }
