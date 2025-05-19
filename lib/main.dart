@@ -146,20 +146,34 @@ class _Connect4PageState extends State<Connect4Page> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('POTEC project'),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.refresh),
-            onPressed: () {
-              setState(() {
-                _resetBoard();
-              });
-            },
-            tooltip: 'Restartuj grę',
-          )
-        ],
-      ),
+    appBar: AppBar(
+      title: const Text('POTEC project'),
+      actions: [
+        TextButton(
+          onPressed: () {
+            setState(() {
+              _resetBoard();
+            });
+          },
+          child: const Text(
+            'Nowa gra',
+            style: TextStyle(
+              color: Colors.black, // ważne, bo AppBar ma ciemne tło
+              fontSize: 16,
+            ),
+          ),
+        ),
+        IconButton(
+          icon: const Icon(Icons.refresh),
+          onPressed: () {
+            setState(() {
+              _resetBoard();
+            });
+          },
+          tooltip: 'Restartuj grę',
+        ),
+      ],
+    ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
